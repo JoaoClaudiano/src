@@ -5,7 +5,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
   health: number = 3
   speed: number = 100
   
-
+//construcao
   constructor(scene: Phaser.Scene, x: number, y: number) {
     // Criar sprite circular para inimigo
     const key = "enemy_basic"
