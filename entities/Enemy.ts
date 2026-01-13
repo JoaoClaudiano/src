@@ -24,7 +24,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     this.setCollideWorldBounds(true)
   }
-
+  
   takeDamage(amount: number) {
     this.health -= amount
     if (this.health <= 0) this.destroy()
