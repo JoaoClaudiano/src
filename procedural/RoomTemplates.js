@@ -11,6 +11,7 @@ export const ROOM_TEMPLATES = [
         enemyCount: 6,
         enemyHPModifier: 1.5
     },
+    //tipos
     {
         id: "elite",
         type: "elite",
@@ -18,3 +19,4 @@ export const ROOM_TEMPLATES = [
         enemyHPModifier: 2
     }
 ];
+
