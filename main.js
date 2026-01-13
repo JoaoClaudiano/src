@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { RoomScene } from "./scenes/RoomScene";
+import { RoomScene } from "./scenes/RoomScene.js";
 const config = {
     type: Phaser.AUTO,
     width: 800,
