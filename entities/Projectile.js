@@ -1,5 +1,3 @@
-import Phaser from "phaser";
-//projeteis
 export class Projectile extends Phaser.Physics.Arcade.Image {
     constructor(scene, x, y, vx, vy) {
         const key = "proj_thought";
