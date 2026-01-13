@@ -1,4 +1,4 @@
-import { Projectile } from "./Projectile";
+import { Projectile } from "./Projectile.js";
 //criar os playes
 export class Player extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y) {
