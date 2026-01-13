@@ -16,6 +16,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this);
         this.setCollideWorldBounds(true);
     }
+    
     takeDamage(amount) {
         this.health -= amount;
         const particles = this.scene.add.particles("whitePixel");
@@ -32,6 +33,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
         if (this.health <= 0)
             this.destroy();
     }
+    
     chase(player) {
         if (!this.active || !player.active)
             return;
@@ -40,3 +42,5 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.setVelocity(dir.x * this.speed, dir.y * this.speed);
     }
 }
+
+
