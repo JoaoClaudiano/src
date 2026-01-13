@@ -1,4 +1,6 @@
 import Phaser from "phaser"
+import { Projectile } from "../entities/Projectile"
+
 import { Player } from "../entities/Player"
 import { Enemy } from "../entities/Enemy"
 import { RoomGenerator } from "../procedural/RoomGenerator"
@@ -8,12 +10,34 @@ export class RoomScene extends Phaser.Scene {
   enemies!: Phaser.GameObjects.Group
   cursors!: Phaser.Types.Input.Keyboard.CursorKeys
   roomCleared = false
+  projectiles!: Phaser.GameObjects.Group
+
 
   constructor() {
     super("room")
   }
 
   create() {
+
+    // Grupo de projéteis
+this.projectiles = this.add.group()
+
+// Colisão projétil ↔ inimigos
+this.physics.add.overlap(
+  this.projectiles,
+  this.enemies,
+  (proj: any, enemyObj: any) => {
+    // Dano no inimigo
+    if (enemyObj.takeDamage) {
+      enemyObj.takeDamage(proj.damage)
+    }
+    // Remove o projétil
+    proj.destroy()
+  },
+  undefined,
+  this
+)
+
     // Player
     this.player = new Player(this, 400, 300)
 
