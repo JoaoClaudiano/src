@@ -1,6 +1,5 @@
-import Phaser from "phaser"
-import { Player } from "../entities/Player"
-import { Enemy } from "../entities/Enemy"
+import { Player } from "../entities/Player.js"
+import { Enemy } from "../entities/Enemy.js"
 
 export class RoomScene extends Phaser.Scene {
   player!: Player
