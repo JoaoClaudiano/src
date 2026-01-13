@@ -10,6 +10,7 @@ export interface ProjectileConfig {
   size: number
 }
 
+
 export const PROJECTILE_TYPES: Record<ProjectileType, ProjectileConfig> = {
   thought: { type: "thought", damage: 1, speed: 350, color: 0xffffff, size: 8 },
   dream: { type: "dream", damage: 2, speed: 250, color: 0x00ffff, size: 10 },
