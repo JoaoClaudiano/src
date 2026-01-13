@@ -6,13 +6,21 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
   speed: number = 100
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
-    super(scene, x, y, "")
+    // Criar sprite circular para inimigo
+    const key = "enemy_basic"
+    if (!scene.textures.exists(key)) {
+      const g = scene.add.graphics()
+      g.fillStyle(0xff0000, 1)
+      g.fillCircle(10, 10, 10)
+      g.generateTexture(key, 20, 20)
+      g.destroy()
+    }
+
+    super(scene, x, y, key)
 
     scene.add.existing(this)
     scene.physics.add.existing(this)
 
-    this.setSize(20, 20)
-    this.setTint(0xff0000)
     this.setCollideWorldBounds(true)
   }
 
