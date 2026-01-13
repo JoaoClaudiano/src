@@ -1,20 +1,15 @@
 import Phaser from "phaser"
-import { Projectile, ProjectileType } from "./Projectile"
+import { Projectile } from "./Projectile"
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
   speed = 200
   shootCooldown = 300
   lastShot = 0
 
-  // Escolha do tipo de pensamento
-  currentProjectile: ProjectileType = "thought"
-
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y, "")
-
     scene.add.existing(this)
     scene.physics.add.existing(this)
-
     this.setSize(20, 20)
     this.setTint(0xffffff)
   }
@@ -30,25 +25,15 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
   shoot(direction: Phaser.Math.Vector2) {
     const now = this.scene.time.now
     if (now - this.lastShot < this.shootCooldown) return
-
-    const config = this.currentProjectile
-    const speed =  PROJECTILE_TYPES[config].speed
-
+    const speed = 350
     const proj = new Projectile(
       this.scene,
       this.x,
       this.y,
       direction.x * speed,
-      direction.y * speed,
-      config
+      direction.y * speed
     )
-
     ;(this.scene as any).projectiles.add(proj)
     this.lastShot = now
-  }
-
-  // Alterna entre tipos de pensamentos
-  setProjectileType(type: ProjectileType) {
-    this.currentProjectile = type
   }
 }
