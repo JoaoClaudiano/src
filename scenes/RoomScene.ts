@@ -1,57 +1,44 @@
 import Phaser from "phaser"
-import { Projectile } from "../entities/Projectile"
-
 import { Player } from "../entities/Player"
 import { Enemy } from "../entities/Enemy"
+import { Projectile } from "../entities/Projectile"
 import { RoomGenerator } from "../procedural/RoomGenerator"
 
 export class RoomScene extends Phaser.Scene {
   player!: Player
   enemies!: Phaser.GameObjects.Group
+  projectiles!: Phaser.GameObjects.Group
   cursors!: Phaser.Types.Input.Keyboard.CursorKeys
   roomCleared = false
-  projectiles!: Phaser.GameObjects.Group
-
 
   constructor() {
     super("room")
   }
 
   create() {
-
-    // Grupo de projéteis
-this.projectiles = this.add.group()
-
-// Colisão projétil ↔ inimigos
-this.physics.add.overlap(
-  this.projectiles,
-  this.enemies,
-  (proj: any, enemyObj: any) => {
-    // Dano no inimigo
-    if (enemyObj.takeDamage) {
-      enemyObj.takeDamage(proj.damage)
-    }
-    // Remove o projétil
-    proj.destroy()
-  },
-  undefined,
-  this
-)
-
     // Player
     this.player = new Player(this, 400, 300)
 
     // Input
     this.cursors = this.input.keyboard.createCursorKeys()
 
-    // Enemies
+    // Grupos
     this.enemies = this.add.group()
+    this.projectiles = this.add.group()
 
-    // 👉 GERA SALA PROCEDURAL
-    const runSeed = Math.floor(Math.random() * 999999)
-    const generator = new RoomGenerator(runSeed)
-    const template = generator.generate()
-    this.spawnEnemies(template.enemyCount)
+    // Colisão projétil ↔ inimigo
+    this.physics.add.overlap(
+      this.projectiles,
+      this.enemies,
+      (proj: any, enemyObj: any) => {
+        if (enemyObj.takeDamage) {
+          enemyObj.takeDamage(proj.damage)
+        }
+        proj.destroy()
+      },
+      undefined,
+      this
+    )
 
     // Colisão player ↔ inimigos
     this.physics.add.overlap(
@@ -61,6 +48,12 @@ this.physics.add.overlap(
       undefined,
       this
     )
+
+    // Gera sala procedural
+    const runSeed = Math.floor(Math.random() * 999999)
+    const generator = new RoomGenerator(runSeed)
+    const template = generator.generate()
+    this.spawnEnemies(template.enemyCount)
   }
 
   update() {
@@ -73,13 +66,12 @@ this.physics.add.overlap(
       enemyObj.chase(this.player)
     })
 
-    // Limpeza da sala
+    // Checa se sala limpa
     if (!this.roomCleared && this.enemies.countActive(true) === 0) {
       this.clearRoom()
     }
   }
 
-  // 💭 Disparo de pensamentos
   handleShooting() {
     const dir = new Phaser.Math.Vector2(0, 0)
 
