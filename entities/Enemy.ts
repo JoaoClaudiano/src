@@ -1,6 +1,7 @@
 import Phaser from "phaser"
 import { Player } from "./Player"
 
+//inimigos criados
 export class Enemy extends Phaser.Physics.Arcade.Sprite {
   health: number = 3
   speed: number = 100
