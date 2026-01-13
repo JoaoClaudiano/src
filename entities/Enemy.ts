@@ -1,23 +1,41 @@
+import Phaser from "phaser"
+import { Player } from "./Player"
+
 export class Enemy extends Phaser.Physics.Arcade.Sprite {
-  hp = 3
+  health: number = 3
+  speed: number = 100
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y, "")
+
+    // Adiciona à cena
     scene.add.existing(this)
     scene.physics.add.existing(this)
 
-    this.setSize(18, 18)
-    this.setTint(0xff3333)
+    // Ajustes visuais
+    this.setSize(20, 20)
+    this.setTint(0xff0000)
+    this.setCollideWorldBounds(true)
   }
 
-  chase(target: Phaser.GameObjects.Sprite) {
-    this.scene.physics.moveToObject(this, target, 60)
-  }
-
-  damage() {
-    this.hp--
-    if (this.hp <= 0) {
+  // Método chamado quando inimigo leva dano
+  takeDamage(amount: number) {
+    this.health -= amount
+    if (this.health <= 0) {
       this.destroy()
     }
+  }
+
+  // Movimento simples para perseguir o player
+  chase(player: Player) {
+    if (!this.active || !player.active) return
+
+    const direction = new Phaser.Math.Vector2(
+      player.x - this.x,
+      player.y - this.y
+    )
+    direction.normalize()
+
+    this.setVelocity(direction.x * this.speed, direction.y * this.speed)
   }
 }
