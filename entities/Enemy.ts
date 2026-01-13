@@ -4,10 +4,8 @@ import { Player } from "./Player"
 export class Enemy extends Phaser.Physics.Arcade.Sprite {
   health: number = 3
   speed: number = 100
-  
-//construcao
+
   constructor(scene: Phaser.Scene, x: number, y: number) {
-    // Criar sprite circular para inimigo
     const key = "enemy_basic"
     if (!scene.textures.exists(key)) {
       const g = scene.add.graphics()
@@ -18,15 +16,28 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     super(scene, x, y, key)
-
     scene.add.existing(this)
     scene.physics.add.existing(this)
 
     this.setCollideWorldBounds(true)
   }
-  
+
   takeDamage(amount: number) {
     this.health -= amount
+
+    // Partículas ao receber dano
+    const particles = this.scene.add.particles("whitePixel")
+    const emitter = particles.createEmitter({
+      x: this.x,
+      y: this.y,
+      speed: { min: -50, max: 50 },
+      scale: { start: 0.3, end: 0 },
+      lifespan: 300,
+      quantity: 5,
+      tint: 0xff0000,
+    })
+    this.scene.time.delayedCall(300, () => particles.destroy())
+
     if (this.health <= 0) this.destroy()
   }
 
