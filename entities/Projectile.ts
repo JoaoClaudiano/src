@@ -2,6 +2,7 @@ import Phaser from "phaser"
 
 export type ProjectileType = "thought"
 
+//projeteis
 export class Projectile extends Phaser.Physics.Arcade.Image {
   damage: number = 1
   type: ProjectileType = "thought"
