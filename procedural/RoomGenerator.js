@@ -1,4 +1,4 @@
-import { ROOM_TEMPLATES } from "./RoomTemplates";
+import { ROOM_TEMPLATES } from "./RoomTemplates.js";
 import { RNG } from "./RNG";
 export class RoomGenerator {
     constructor(seed) {
