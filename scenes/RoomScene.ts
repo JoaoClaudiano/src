@@ -8,6 +8,7 @@ export class RoomScene extends Phaser.Scene {
   cursors!: Phaser.Types.Input.Keyboard.CursorKeys
   projectiles!: Phaser.GameObjects.Group
 
+  //construir novas salas
   constructor() { super("room") }
 
   create() {
