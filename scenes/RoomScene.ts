@@ -27,7 +27,6 @@ export class RoomScene extends Phaser.Scene {
     const runSeed = Math.floor(Math.random() * 999999)
     const generator = new RoomGenerator(runSeed)
     const template = generator.generate()
-
     this.spawnEnemies(template.enemyCount)
 
     // Colisão player ↔ inimigos
@@ -41,14 +40,34 @@ export class RoomScene extends Phaser.Scene {
   }
 
   update() {
+    // Movimentação e disparo
     this.player.move(this.cursors)
+    this.handleShooting()
 
+    // Inimigos perseguem
     this.enemies.children.iterate((enemyObj: any) => {
       enemyObj.chase(this.player)
     })
 
+    // Limpeza da sala
     if (!this.roomCleared && this.enemies.countActive(true) === 0) {
       this.clearRoom()
+    }
+  }
+
+  // 💭 Disparo de pensamentos
+  handleShooting() {
+    const dir = new Phaser.Math.Vector2(0, 0)
+
+    if (this.cursors.left?.isDown) dir.x = -1
+    else if (this.cursors.right?.isDown) dir.x = 1
+
+    if (this.cursors.up?.isDown) dir.y = -1
+    else if (this.cursors.down?.isDown) dir.y = 1
+
+    if (dir.length() > 0) {
+      dir.normalize()
+      this.player.shoot(dir)
     }
   }
 
