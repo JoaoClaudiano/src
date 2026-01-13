@@ -1,6 +1,7 @@
 import { Player } from "../entities/Player.js";
 import { Enemy } from "../entities/Enemy.js";
 export class RoomScene extends Phaser.Scene {
+    
     //construir novas salas
     constructor() { super("room"); }
     create() {
