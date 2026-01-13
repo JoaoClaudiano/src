@@ -1,4 +1,4 @@
-import { ProjectileType } from "./Projectile"
+import { ProjectileType } from "./Projectile.js"
 
 export type PowerupType =
   | "changeToDream"
