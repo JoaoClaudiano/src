@@ -1,4 +1,3 @@
-import Phaser from "phaser";
 import { Projectile } from "./Projectile";
 //criar os playes
 export class Player extends Phaser.Physics.Arcade.Sprite {
