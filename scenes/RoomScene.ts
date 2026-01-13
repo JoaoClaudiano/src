@@ -1,5 +1,7 @@
+import Phaser from "phaser"
 import { Player } from "../entities/Player"
 import { Enemy } from "../entities/Enemy"
+import { RoomGenerator } from "../procedural/RoomGenerator"
 
 export class RoomScene extends Phaser.Scene {
   player!: Player
@@ -20,7 +22,13 @@ export class RoomScene extends Phaser.Scene {
 
     // Enemies
     this.enemies = this.add.group()
-    this.spawnEnemies(4)
+
+    // 👉 GERA SALA PROCEDURAL
+    const runSeed = Math.floor(Math.random() * 999999)
+    const generator = new RoomGenerator(runSeed)
+    const template = generator.generate()
+
+    this.spawnEnemies(template.enemyCount)
 
     // Colisão player ↔ inimigos
     this.physics.add.overlap(
