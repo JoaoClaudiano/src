@@ -8,5 +8,6 @@ const config = {
     physics: { default: "arcade", arcade: { debug: false } },
     scene: [RoomScene]
 };
+
 //novas fases
 new Phaser.Game(config);
