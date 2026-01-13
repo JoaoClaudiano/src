@@ -5,6 +5,7 @@ spawnPowerup() {
     Phaser.Math.Between(0, POWERUPS.length - 1)
   ]
 
+  
   const key = `powerup_${effect.type}`
 
   if (!this.textures.exists(key)) {
