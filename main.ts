@@ -1,14 +1,17 @@
 import Phaser from "phaser"
 import { RoomScene } from "./scenes/RoomScene"
 
-new Phaser.Game({
+const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
   width: 800,
   height: 600,
-  backgroundColor: "#0d0d0d",
+  backgroundColor: "#222222",
+  parent: "game",
   physics: {
     default: "arcade",
-    arcade: { debug: false }
+    arcade: { debug: false },
   },
-  scene: [RoomScene]
-})
+  scene: [RoomScene],
+}
+
+new Phaser.Game(config)
