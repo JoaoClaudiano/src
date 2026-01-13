@@ -1,4 +1,3 @@
-//inimigos criados
 export class Enemy extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y) {
         const key = "enemy_basic";
