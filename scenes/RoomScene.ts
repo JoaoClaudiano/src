@@ -1,43 +1,44 @@
-spawnPowerup() {
-  const x = Phaser.Math.Between(100, 700)
-  const y = Phaser.Math.Between(100, 500)
-  const effect = POWERUPS[
-    Phaser.Math.Between(0, POWERUPS.length - 1)
-  ]
+import Phaser from "phaser"
+import { Player } from "../entities/Player"
+import { Enemy } from "../entities/Enemy"
 
-  const key = `powerup_${effect.type}`
+export class RoomScene extends Phaser.Scene {
+  player!: Player
+  enemies!: Phaser.GameObjects.Group
+  cursors!: Phaser.Types.Input.Keyboard.CursorKeys
+  projectiles!: Phaser.GameObjects.Group
 
-  if (!this.textures.exists(key)) {
-    const g = this.add.graphics()
-    g.fillStyle(0x00ff00, 1)
-    g.fillCircle(10, 10, 10)
-    g.generateTexture(key, 20, 20)
-    g.destroy()
+  constructor() { super("room") }
+
+  create() {
+    this.player = new Player(this, 400, 300)
+    this.cursors = this.input.keyboard.createCursorKeys()
+    this.enemies = this.add.group()
+    this.projectiles = this.add.group()
+
+    for (let i = 0; i < 5; i++) {
+      const enemy = new Enemy(this, Phaser.Math.Between(100, 700), Phaser.Math.Between(100, 500))
+      this.enemies.add(enemy)
+    }
+
+    this.physics.add.overlap(this.projectiles, this.enemies, (_proj: any, enemy: any) => {
+      enemy.takeDamage(1)
+      _proj.destroy()
+    })
   }
 
-  const sprite = this.physics.add.image(x, y, key) as any
-  sprite.effect = effect
+  update() {
+    this.player.move(this.cursors)
+    this.handleShooting()
+    this.enemies.children.iterate((e: any) => e.chase(this.player))
+  }
 
-  // Piscar (tween)
-  this.tweens.add({
-    targets: sprite,
-    alpha: { from: 1, to: 0.3 },
-    yoyo: true,
-    repeat: -1,
-    duration: 500,
-  })
-
-  this.physics.add.overlap(
-    this.player,
-    sprite,
-    (_player: any, p: any) => {
-      this.player.collectPowerup(p.effect)
-      p.destroy()
-      console.log("Amuleto coletado:", p.effect.type)
-    },
-    undefined,
-    this
-  )
-
-  this.powerups.add(sprite)
+  handleShooting() {
+    const dir = new Phaser.Math.Vector2(0, 0)
+    if (this.cursors.left?.isDown) dir.x = -1
+    else if (this.cursors.right?.isDown) dir.x = 1
+    if (this.cursors.up?.isDown) dir.y = -1
+    else if (this.cursors.down?.isDown) dir.y = 1
+    if (dir.length() > 0) { dir.normalize(); this.player.shoot(dir) }
+  }
 }
