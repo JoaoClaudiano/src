@@ -8,6 +8,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
             g.generateTexture(key, 20, 20);
             g.destroy();
         }
+        
         super(scene, x, y, key);
         this.health = 3;
         this.speed = 100;
