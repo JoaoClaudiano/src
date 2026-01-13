@@ -43,7 +43,7 @@ export class Projectile extends Phaser.Physics.Arcade.Image {
     }
 
     super(scene, x, y, key)
-
+//danos
     this.type = type
     this.damage = config.damage
 
