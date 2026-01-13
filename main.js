@@ -1,4 +1,3 @@
-//import Phaser from "phaser";
 import { RoomScene } from "./scenes/RoomScene.js";
 const config = {
     type: Phaser.AUTO,
