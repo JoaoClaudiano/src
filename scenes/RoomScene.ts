@@ -16,13 +16,9 @@ export class RoomScene extends Phaser.Scene {
   }
 
   create() {
-    // Player
     this.player = new Player(this, 400, 300)
-
-    // Input
     this.cursors = this.input.keyboard.createCursorKeys()
 
-    // Grupos
     this.enemies = this.add.group()
     this.projectiles = this.add.group()
 
@@ -31,9 +27,7 @@ export class RoomScene extends Phaser.Scene {
       this.projectiles,
       this.enemies,
       (proj: any, enemyObj: any) => {
-        if (enemyObj.takeDamage) {
-          enemyObj.takeDamage(proj.damage)
-        }
+        if (enemyObj.takeDamage) enemyObj.takeDamage(proj.damage)
         proj.destroy()
       },
       undefined,
@@ -57,16 +51,13 @@ export class RoomScene extends Phaser.Scene {
   }
 
   update() {
-    // Movimentação e disparo
     this.player.move(this.cursors)
     this.handleShooting()
 
-    // Inimigos perseguem
     this.enemies.children.iterate((enemyObj: any) => {
       enemyObj.chase(this.player)
     })
 
-    // Checa se sala limpa
     if (!this.roomCleared && this.enemies.countActive(true) === 0) {
       this.clearRoom()
     }
@@ -74,13 +65,10 @@ export class RoomScene extends Phaser.Scene {
 
   handleShooting() {
     const dir = new Phaser.Math.Vector2(0, 0)
-
     if (this.cursors.left?.isDown) dir.x = -1
     else if (this.cursors.right?.isDown) dir.x = 1
-
     if (this.cursors.up?.isDown) dir.y = -1
     else if (this.cursors.down?.isDown) dir.y = 1
-
     if (dir.length() > 0) {
       dir.normalize()
       this.player.shoot(dir)
