@@ -10,7 +10,6 @@ export interface ProjectileConfig {
   size: number
 }
 
-
 export const PROJECTILE_TYPES: Record<ProjectileType, ProjectileConfig> = {
   thought: { type: "thought", damage: 1, speed: 350, color: 0xffffff, size: 8 },
   dream: { type: "dream", damage: 2, speed: 250, color: 0x00ffff, size: 10 },
@@ -21,6 +20,7 @@ export const PROJECTILE_TYPES: Record<ProjectileType, ProjectileConfig> = {
 export class Projectile extends Phaser.Physics.Arcade.Image {
   damage: number
   type: ProjectileType
+  tween!: Phaser.Tweens.Tween
 
   constructor(
     scene: Phaser.Scene,
@@ -30,7 +30,6 @@ export class Projectile extends Phaser.Physics.Arcade.Image {
     vy: number,
     type: ProjectileType = "thought"
   ) {
-    // Criar um "sprite" circular com Graphics e renderizar como texture
     const config = PROJECTILE_TYPES[type]
     const key = `proj_${type}`
 
@@ -43,7 +42,7 @@ export class Projectile extends Phaser.Physics.Arcade.Image {
     }
 
     super(scene, x, y, key)
-//danos
+
     this.type = type
     this.damage = config.damage
 
@@ -53,5 +52,19 @@ export class Projectile extends Phaser.Physics.Arcade.Image {
     this.setVelocity(vx, vy)
     this.setCollideWorldBounds(true)
     this.setBounce(0)
+
+    // Brilho/pulsação
+    this.tween = scene.tweens.add({
+      targets: this,
+      scale: { from: 1, to: 1.4 },
+      yoyo: true,
+      repeat: -1,
+      duration: 200,
+    })
+  }
+
+  destroy(fromScene?: boolean) {
+    if (this.tween) this.tween.stop()
+    super.destroy(fromScene)
   }
 }
