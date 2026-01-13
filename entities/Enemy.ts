@@ -18,14 +18,11 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
     super(scene, x, y, key)
     scene.add.existing(this)
     scene.physics.add.existing(this)
-
     this.setCollideWorldBounds(true)
   }
 
   takeDamage(amount: number) {
     this.health -= amount
-
-    // Partículas ao receber dano
     const particles = this.scene.add.particles("whitePixel")
     const emitter = particles.createEmitter({
       x: this.x,
@@ -37,13 +34,11 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
       tint: 0xff0000,
     })
     this.scene.time.delayedCall(300, () => particles.destroy())
-
     if (this.health <= 0) this.destroy()
   }
 
   chase(player: Player) {
     if (!this.active || !player.active) return
-
     const dir = new Phaser.Math.Vector2(player.x - this.x, player.y - this.y)
     dir.normalize()
     this.setVelocity(dir.x * this.speed, dir.y * this.speed)
