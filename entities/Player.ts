@@ -32,15 +32,16 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     if (now - this.lastShot < this.shootCooldown) return
 
     const speed = 350
-
-    // Cria o pensamento
-    new Projectile(
+    const proj = new Projectile(
       this.scene,
       this.x,
       this.y,
       direction.x * speed,
       direction.y * speed
     )
+
+    // Adiciona ao grupo da cena
+    ;(this.scene as any).projectiles.add(proj)
 
     this.lastShot = now
   }
