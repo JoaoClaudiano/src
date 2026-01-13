@@ -1,7 +1,6 @@
 {
-  "name": "pesadelos-de-um-sonhador",
+  "name": "src",
   "version": "0.1.0",
-  "description": "Jogo inspirado em Binding of Isaac, desenvolvido com Phaser + TypeScript",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
